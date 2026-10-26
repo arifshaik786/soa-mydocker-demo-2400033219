@@ -1,4 +1,4 @@
-
+```yaml
 name: Docker Fullstack - EV Charging Session Management
 
 on:
@@ -15,6 +15,16 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v4
 
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build backend JAR
+        run: mvn -B -f backend/pom.xml clean package -DskipTests
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -26,7 +36,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push backend image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./backend
           file: ./backend/Dockerfile
@@ -34,10 +44,12 @@ jobs:
           tags: arif780/docker-backend-2400033219:latest
 
       - name: Build and push frontend image
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: arif780/docker-frontend-2400033219:latest
-
+          build-args: |
+            VITE_API_BASE_URL=http://localhost:8081
+```
