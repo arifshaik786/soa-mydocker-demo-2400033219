@@ -50,6 +50,4 @@ jobs:
           file: ./frontend/Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: arif780/docker-frontend-2400033219:latest
-          build-args: |
-            VITE_API_BASE_URL=http://localhost:8081
 ```
