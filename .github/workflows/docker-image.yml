@@ -1,4 +1,4 @@
-```yaml
+
 name: Docker Fullstack - EV Charging Session Management
 
 on:
@@ -50,4 +50,3 @@ jobs:
           file: ./frontend/Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: arif780/docker-frontend-2400033219:latest
-```
